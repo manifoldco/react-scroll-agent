@@ -1,0 +1,51 @@
+{
+  "name": "react-scroll-agent",
+  "version": "0.0.1",
+  "description": "Deadly spy for make benefit glorious nation of Scrolltopia",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel src/ScrollAgent.js --out-file dist/index.js",
+    "build:watch": "babel src/ScrollAgent.js --out-file dist/index.js --watch",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "github": "git@github.com:dangodev/react-scroll-agent.git"
+  },
+  "keywords": [
+    "scrollspy",
+    "react"
+  ],
+  "author": "dangodev",
+  "license": "ISC",
+  "dependencies": {
+    "@reach/observe-rect": "^1.0.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.56",
+    "@babel/core": "^7.0.0-beta.56",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.56",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.56",
+    "@babel/preset-env": "^7.0.0-beta.56",
+    "@babel/preset-react": "^7.0.0-beta.56",
+    "babel-eslint": "^8.2.6",
+    "babel-preset-minify": "^0.5.0-alpha.3cc09dcf",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-react": "^1.1.7",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-react": "^7.10.0",
+    "prettier": "^1.14.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  },
+  "peerDependencies": {
+    "@reach/observe-rect": "^1.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "prop-types": "^15.0.0"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["react", "airbnb", "prettier/react"],
+  "plugins": ["react", "prettier", "import", "jsx-a11y"],
+  "rules": {
+    "import/no-extraneous-dependencies": 0,
+    "react/jsx-filename-extension": 0
+  }
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>React Scroll Agent Example</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    main > div {
+      display: grid;
+      grid-column-gap: 2rem;
+      grid-template-columns: 1fr 3fr;
+    }
+
+    section img {
+      max-width: 100%;
+    }
+
+    menu {
+      height: 50vh;
+      padding-top: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    menu a {
+      display: block;
+      transition-duration: 100ms;
+      transition-property: background-color, color;
+      transition-timing-function: linear;
+    }
+
+    menu a.is-active {
+      background-color: blue;
+      color: white;
+    }
+
+    section {
+      border-bottom: 1px solid gray;
+      padding-bottom: 4rem;
+      padding-top: 4rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+
+<% if (htmlWebpackPlugin.options.inlineManifestWebpackName) { %>
+  <%= htmlWebpackPlugin.files[htmlWebpackPlugin.options.inlineManifestWebpackName] %>
+<% } %>
+
+<% for (key in htmlWebpackPlugin.files.chunks) { %>
+  <% if (htmlWebpackPlugin.files.jsIntegrity) { %>
+  <script
+    src="<%= htmlWebpackPlugin.files.chunks[key].entry %>"
+    type="text/javascript"
+    integrity="<%= htmlWebpackPlugin.files.jsIntegrity[htmlWebpackPlugin.files.js.indexOf(htmlWebpackPlugin.files.chunks[key].entry)] %>"
+    crossorigin="<%= webpackConfig.output.crossOriginLoading %>"></script>
+  <% } else { %>
+    <script src="<%= htmlWebpackPlugin.files.chunks[key].entry %>" type="text/javascript"></script>
+  <% } %>
+<% } %>
+<% if (htmlWebpackPlugin.options.devServer) { %>
+  <script src="<%= htmlWebpackPlugin.options.devServer %>/webpack-dev-server.js" type="text/javascript"></script>
+<% } %>
+</body>
+
+</html>
