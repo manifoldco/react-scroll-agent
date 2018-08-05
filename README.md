@@ -4,6 +4,8 @@ Tiny, 6 KB (pre-gzip) scrollspy component that performantly runs at 60 FPS thank
 `requestAnimationFrame` and
 [@reach/observe-rect](https://github.com/reach/observe-rect).
 
+<p align="center"><img src="./example.gif" alt="react-scroll-agent example" /></p>
+
 ### Install
 
 ```
