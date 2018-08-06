@@ -7,7 +7,7 @@ const App = () => (
   <main>
     <ScrollAgent
       selector="section[data-scroll]"
-      nav={({ current }) => (
+      nav={({ current, positions }) => (
         <menu>
           <a href="#section-1" className={current === 0 ? 'is-active' : ''}>
             Section 1
@@ -15,7 +15,14 @@ const App = () => (
           <a href="#section-2" className={current === 1 ? 'is-active' : ''}>
             Section 2
           </a>
-          <a href="#section-3" className={current === 2 ? 'is-active' : ''}>
+          <a
+            href="#"
+            onClick={e => {
+              e.preventDefault();
+              window.scrollTo(0, positions[2]);
+            }}
+            className={current === 2 ? 'is-active' : ''}
+          >
             Section 3
           </a>
           <a href="#section-4" className={current === 3 ? 'is-active' : ''}>

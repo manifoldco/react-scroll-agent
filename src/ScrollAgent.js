@@ -8,10 +8,10 @@ const BOTTOM = 'bottom';
 
 class ScrollAgent extends React.PureComponent {
   // Memoized scroll position, to prevent unnecessary scroll firings
-  _lastY = 0;
+  _lastY = -1;
 
   // Memoized container height, to prevent unnecessary recalcs
-  _lastH = 0;
+  _lastH = -1;
 
   // Ref for scrollspy
   wrapper = React.createRef();
@@ -19,13 +19,16 @@ class ScrollAgent extends React.PureComponent {
   // Reference of observed element
   observer = undefined;
 
-  // Array of scrollspy Y values, calculated from top of window
-  observedHeights = [];
-
-  state = { current: 0 };
+  state = {
+    current: -1,
+    positions: [],
+  };
 
   componentDidMount() {
     this.observe();
+    // Initialize (observer won’t fire on mount)
+    this.handleRecalc();
+    this.handleScroll(window.scrollY);
   }
 
   componentDidUpdate() {
@@ -58,41 +61,46 @@ class ScrollAgent extends React.PureComponent {
   // Fires on every observation change. Determines what should update.
   handleChange = ({ top, height }) => {
     if (typeof window === 'undefined') return;
-    if (top !== this._lastY)
-      window.requestAnimationFrame(() => this.handleScroll(top));
-    if (!this.wrapper.current) return;
-    if (height > 0 && height !== this._lastH)
-      window.requestAnimationFrame(() => this.handleRecalc(height));
-  };
-
-  // Handle height recalculation, limited by requestAnimationFrame().
-  handleRecalc = height => {
-    this.observedHeights = [
-      ...this.wrapper.current.querySelectorAll(this.props.selector),
-    ]
-      .map(node => node.getBoundingClientRect().top + window.scrollY)
-      .sort((a, b) => a - b);
-    this._lastH = height;
-  };
-
-  // Handle scroll event, limited by requestAnimationFrame().
-  handleScroll = top => {
-    // By default, highlight last item even if it doesn’t reach the top.
-    if (
-      this.props.detectEnd === true &&
-      this._lastH - window.scrollY - window.innerHeight <= 1
-    ) {
-      this.setState({ current: this.observedHeights.length - 1 });
-    } else {
-      // Find first section that is “too far,” then step back one
-      const threshold = top + window.scrollY + this.threshold;
-      let current = this.observedHeights.findIndex(
-        (y, index) => Math.floor(y - window.scrollY) > threshold
-      );
-      if (current < 0) current = this.observedHeights.length - 1;
-      else current = Math.max(current - 1, 0);
-      this.setState({ current });
+    if (top !== this._lastY) {
+      this.handleScroll(top);
     }
+    if (!this.wrapper.current) return;
+    if (height > 0 && height !== this._lastH) {
+      this.handleRecalc();
+      this._lastH = height;
+    }
+  };
+
+  // Handle height recalculation
+  handleRecalc = () => {
+    this.setState({
+      positions: [...this.wrapper.current.querySelectorAll(this.props.selector)]
+        .map(node => node.getBoundingClientRect().top + window.scrollY)
+        .sort((a, b) => a - b),
+    });
+  };
+
+  // Handle scroll event
+  handleScroll = top => {
+    // If detectEnd, highlight last item even if it doesn’t reach the top.
+    if (
+      this.props.detectEnd &&
+      Math.floor(this._lastH - window.scrollY - window.innerHeight) <= 1
+    ) {
+      this.setState(({ positions }) => ({
+        current: positions.length - 1,
+      }));
+      return;
+    }
+    // Find first section that is “too far,” then step back one.
+    // Infinity is added at the end so you can step back to the last index.
+    const threshold = top + window.scrollY + this.threshold;
+    this.setState(({ positions }) => ({
+      current:
+        [...positions, Infinity].findIndex(
+          y => Math.floor(y - window.scrollY) > threshold
+        ) - 1,
+    }));
     this._lastY = top;
   };
 
@@ -107,7 +115,10 @@ class ScrollAgent extends React.PureComponent {
     } = this.props;
     return (
       <div {...props}>
-        {nav({ current: this.state.current })}
+        {nav({
+          current: this.state.current,
+          positions: this.state.positions,
+        })}
         <div ref={this.wrapper}>{children}</div>
       </div>
     );

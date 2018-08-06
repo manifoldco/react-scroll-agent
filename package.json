@@ -1,6 +1,6 @@
 {
   "name": "react-scroll-agent",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Deadly spy for make benefit glorious nation of Scrolltopia",
   "main": "dist/index.js",
   "scripts": {
@@ -9,11 +9,21 @@
     "prepublish": "npm run build"
   },
   "repository": {
-    "github": "git@github.com:dangodev/react-scroll-agent.git"
+    "type": "git",
+    "url": "git+https://dangodev/react-scroll-agent.git"
+  },
+  "homepage": "https://github.com/dangodev/react-scroll-agent",
+  "bugs": {
+    "url": "https://github.com/dangodev/react-scroll-agent/issues"
   },
   "keywords": [
-    "scrollspy",
-    "react"
+    "react",
+    "scroll",
+    "spy",
+    "animation",
+    "performant",
+    "performance",
+    "scrollspy"
   ],
   "author": "dangodev",
   "license": "ISC",
