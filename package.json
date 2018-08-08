@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://dangodev/react-scroll-agent.git"
+    "url": "git+https://github.com/dangodev/react-scroll-agent.git"
   },
   "homepage": "https://github.com/dangodev/react-scroll-agent",
   "bugs": {
