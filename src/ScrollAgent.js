@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import observeRect from '@reach/observe-rect';
 
+// Settings
+const REFIRE = 500; // Time in ms to refire calc (takes care of reflow that happens after final animationFrame firing)
+
+// Values
 const TOP = 'top';
 const CENTER = 'center';
 const BOTTOM = 'bottom';
@@ -12,6 +16,9 @@ class ScrollAgent extends React.PureComponent {
 
   // Memoized container height, to prevent unnecessary recalcs
   _lastH = -1;
+
+  // setTimeout placeholder
+  _lastRecalc = undefined;
 
   // Ref for scrollspy
   wrapper = React.createRef();
@@ -68,13 +75,30 @@ class ScrollAgent extends React.PureComponent {
     if (height > 0 && height !== this._lastH) {
       this.handleRecalc();
       this._lastH = height;
+
+      // After last recalculation, wait 500ms and re-fire.
+      // This fixes calc issues on longer pages when animationFrame skips.
+      clearTimeout(this._lastRecalc);
+      this._lastRecalc = setTimeout(() => this.handleRecalc(), REFIRE);
     }
   };
 
   // Handle height recalculation
   handleRecalc = () => {
+    let elements = [];
+
+    try {
+      elements = this.wrapper.current.querySelectorAll(this.props.selector);
+    } catch (err) {
+      console.error(
+        `⚠️ ReactScrollAgent: failed prop \`selector="${
+          this.props.selector
+        }"\`. Must be a valid param for document.querySelectorAll(): https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll`
+      );
+      console.error(err);
+    }
     this.setState({
-      positions: [...this.wrapper.current.querySelectorAll(this.props.selector)]
+      positions: [...elements]
         .map(node => node.getBoundingClientRect().top + window.scrollY)
         .sort((a, b) => a - b),
     });
