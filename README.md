@@ -22,7 +22,7 @@ import ScrollAgent from 'react-scroll-agent';
     <menu>
       <a href="#section-1" className={current === 0 ? 'is-active' : ''}>Section 1</a>
       <a href="#section-2" className={current === 1 ? 'is-active' : ''}>Section 2</a>
-      <a onClick={() => window.scrollTo(0, positions[2])} className={current === 1 ? 'is-active' : ''}>
+      <a onClick={() => window.scrollTo(0, positions[2])} className={current === 2 ? 'is-active' : ''}>
         Section 3
       </a>
     </menu>
