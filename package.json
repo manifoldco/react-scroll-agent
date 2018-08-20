@@ -1,6 +1,6 @@
 {
   "name": "react-scroll-agent",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Deadly spy for make benefit glorious nation of Scrolltopia",
   "main": "dist/index.js",
   "scripts": {

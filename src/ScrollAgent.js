@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import observeRect from '@reach/observe-rect';
 
 // Settings
-const REFIRE = 500; // Time in ms to refire calc (takes care of reflow that happens after final animationFrame firing)
+const REFIRE = 200; // Time in ms to refire calc (takes care of reflow that happens after final animationFrame firing)
 
 // Values
 const TOP = 'top';
@@ -11,9 +11,6 @@ const CENTER = 'center';
 const BOTTOM = 'bottom';
 
 class ScrollAgent extends React.PureComponent {
-  // Memoized scroll position, to prevent unnecessary scroll firings
-  _lastY = -1;
-
   // Memoized container height, to prevent unnecessary recalcs
   _lastH = -1;
 
@@ -68,9 +65,7 @@ class ScrollAgent extends React.PureComponent {
   // Fires on every observation change. Determines what should update.
   handleChange = ({ top, height }) => {
     if (typeof window === 'undefined') return;
-    if (top !== this._lastY) {
-      this.handleScroll(top);
-    }
+    this.handleScroll(top);
     if (!this.wrapper.current) return;
     if (height > 0 && height !== this._lastH) {
       this.handleRecalc();
@@ -111,18 +106,15 @@ class ScrollAgent extends React.PureComponent {
       this.props.detectEnd &&
       Math.floor(this._lastH - window.scrollY - window.innerHeight) <= 1
     ) {
-      this.setState(({ positions }) => ({
-        current: positions.length - 1,
-      }));
+      this.setState(({ positions }) => ({ current: positions.length - 1 }));
       return;
     }
     // Find first section that is “too far,” then step back one.
     // Infinity is added at the end so you can step back to the last index.
-    const threshold = top + window.scrollY + this.threshold;
     this.setState(({ positions }) => ({
       current:
         [...positions, Infinity].findIndex(
-          y => Math.floor(y - window.scrollY) > threshold
+          y => y - window.scrollY - this.threshold > 0
         ) - 1,
     }));
     this._lastY = top;

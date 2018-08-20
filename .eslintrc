@@ -1,7 +1,7 @@
 {
   "parser": "babel-eslint",
-  "extends": ["react", "airbnb", "prettier/react"],
-  "plugins": ["react", "prettier", "import", "jsx-a11y"],
+  "extends": ["prettier/react", "react", "airbnb"],
+  "plugins": ["prettier", "react", "import", "jsx-a11y"],
   "rules": {
     "arrow-parens": 0,
     "import/no-extraneous-dependencies": 0,
