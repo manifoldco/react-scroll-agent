@@ -100,7 +100,7 @@ import ScrollAgent from 'react-scroll-agent/esm';
 #### IIFE (4 KB, for use in <script> tag)
 
 ```
-<script src="//unpkg.com/react-scroll-agent/esm.js"></script>
+<script src="//unpkg.com/react-scroll-agent/dist/iife.js"></script>
 ```
 
 ### Notes
