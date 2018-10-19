@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import observeRect from '@reach/observe-rect';
 
 // Settings
-const REFIRE = 200; // Time in ms to refire calc (takes care of reflow that happens after final animationFrame firing)
+const REFIRE = 500; // Time in ms to refire calc (takes care of reflow that happens after final animationFrame firing)
 
 // Values
 const TOP = 'top';

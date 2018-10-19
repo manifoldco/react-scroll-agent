@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ScrollAgent from '../../dist';
+import ScrollAgent from '../../dist/cjs';
 
 const App = () => (
   <main>
