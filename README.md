@@ -57,7 +57,7 @@ import ScrollAgent from 'react-scroll-agent';
 | `children`  | React Node |          |         | Standard child passthrough. This is where it watches for scroll events.                                                                                                                         |
 | `detectEnd` | `Boolean`  |          | `true`  | If `true`, the last index will be highlighted when scrolled to the bottom. If `false`, then when scrolled to the bottom, `current` will return whichever container is currently at `threshold`. |
 | `nav`       | React Node |          |         | Render prop that returns `current` index in view and all `positions` of items.                                                                                                                  |
-| `threshold` | `String`   |          | `"top"` | Trigger point at which `current` watches. Accepts `"top"`, `"center"`, or `"bottom"` (if a specific threshold is needed, simply add `padding` to the top or bottom of a container).             |
+| `threshold` | `String | Number`   |          | `"top"` | Trigger point at which `current` watches. Accepts `"top"`, `"center"`, or `"bottom"` (If a specific threshold is needed, just give a specific number).             |
 
 ### Nav
 

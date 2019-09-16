@@ -11,6 +11,21 @@ const CENTER = 'center';
 const BOTTOM = 'bottom';
 
 class ScrollAgent extends React.PureComponent {
+  static propTypes = {
+    children: PropTypes.node,
+    detectEnd: PropTypes.bool,
+    nav: PropTypes.func,
+    selector: PropTypes.string.isRequired,
+    threshold: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  };
+
+  static defaultProps = {
+    children: undefined,
+    detectEnd: true,
+    nav: () => null,
+    threshold: TOP,
+  };
+
   // Memoized container height, to prevent unnecessary recalcs
   _lastH = -1;
 
@@ -44,15 +59,21 @@ class ScrollAgent extends React.PureComponent {
   }
 
   get threshold() {
-    switch (this.props.threshold) {
-      case CENTER:
-        return Math.floor(window.innerHeight / 2);
-      case BOTTOM:
-        return window.innerHeight;
-      case TOP:
-      default:
-        return 0;
+    const { threshold } = this.props;
+
+    if (typeof threshold === 'string') {
+      switch (threshold) {
+        case CENTER:
+          return Math.floor(window.innerHeight / 2);
+        case BOTTOM:
+          return window.innerHeight;
+        case TOP:
+        default:
+          return 0;
+      }
     }
+
+    return threshold;
   }
 
   // Fires on window scroll, and reflow (images loading, resize, etc.)
@@ -140,20 +161,5 @@ class ScrollAgent extends React.PureComponent {
     );
   }
 }
-
-ScrollAgent.propTypes = {
-  children: PropTypes.node,
-  detectEnd: PropTypes.bool,
-  nav: PropTypes.func,
-  selector: PropTypes.string.isRequired,
-  threshold: PropTypes.oneOf([TOP, CENTER, BOTTOM]),
-};
-
-ScrollAgent.defaultProps = {
-  children: undefined,
-  detectEnd: true,
-  nav: () => null,
-  threshold: TOP,
-};
 
 export default ScrollAgent;
